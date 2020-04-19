@@ -1,0 +1,40 @@
+version: '3.4'
+
+services:
+  qpanc.api:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=https://+:443;http://+:80
+      - DEFAULT_CONNECTION=Server=qpanc.database;Port=5432;Database=postgres;User Id=postgres;Password=keepitsupersecret;
+      - JWTBEARER_VALIDISSUER=https://api.qpanc.app/
+      - JWTBEARER_VALIDAUDIENCE=https://api.qpanc.app/
+      - JWTBEARER_ISSUERSIGNINGKEY=itUXC7iVRsofSDWNeg/aLYpc4bMzHAsMPzeItE1PQi2tMK2f4t0InRgTE5B/4IAjhAX5LQSIGL1CaUHSSzED8A==
+      - JWTBEARER_TOKENDECRYPTIONKEY=7hfboHG0d4GnXjVng0ukMo+IgrKKrPLUMtOvnt4S514=
+      - CORS_HOSTS__0=localhost
+    ports:
+      - "34512:80"
+      - "34513:443"
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+
+  qpanc.app:
+    container_name: qpanc_app_dev
+    build:
+      context: ./QPANC.App
+      target: 'develop-stage'
+      dockerfile: .docker/dev.Dockerfile
+    volumes:
+      - ./QPANC.App:/app
+    ports:
+      - "8080:8080"
+    command: /bin/sh -c "yarn && quasar upgrade -i && API_CLIENT_URL=https://localhost:34513/ API_SERVER_URL=https://172.18.18.3:443/ quasar dev -m ssr"
+
+  qpanc.database:
+    volumes:
+      - ./database:/var/lib/postgresql/database
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: keepitsupersecret
+      POSTGRES_DB: postgres
+  

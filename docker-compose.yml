@@ -1,0 +1,40 @@
+version: '3.4'
+
+services:
+  qpanc.api:
+    image: ${DOCKER_REGISTRY-}qpancapi
+    build:
+      context: .
+      dockerfile: QPANC.Api/Dockerfile
+    networks:
+      qpanc.network:
+      qpanc.internal:
+        ipv4_address: "172.18.18.3"
+
+  qpanc.app:
+    restart: always
+    image: ${DOCKER_REGISTRY-}qpancapp
+    networks:
+      qpanc.network:
+      qpanc.internal:
+        ipv4_address: "172.18.18.6"
+
+  qpanc.database:
+    image: postgres:latest
+    ports:
+      - "34514:5432"
+    restart: always
+    networks:
+      qpanc.network:
+      qpanc.internal:
+        ipv4_address: "172.18.18.9"
+
+networks:
+  qpanc.internal:
+    internal: true
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.18.18.0/24
+  qpanc.network:

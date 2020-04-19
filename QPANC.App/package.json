@@ -1,0 +1,54 @@
+{
+  "name": "qpanc.app",
+  "version": "0.0.1",
+  "description": "QPANC App - Quasar, PostgreSQL and ASP.NET Core",
+  "productName": "QPANC App - Quasar, PostgreSQL and ASP.NET Core",
+  "cordovaId": "org.qpanc.app",
+  "capacitorId": "",
+  "author": "TobyMosque <tobias.mesquita@gmail.com>",
+  "private": true,
+  "scripts": {
+    "lint": "eslint --ext .js,.vue src",
+    "test": "echo \"No test specified\" && exit 0",
+	"start": "node dist/ssr/index.js",
+    "run:dev": "docker-compose -f ../docker-compose.yml -f ../docker-compose.override.yml up",
+    "run:prod": "docker-compose -f ../docker-compose.yml -f ../docker-compose.production.yml up",
+    "build:dev": "docker-compose -f ../docker-compose.yml -f ../docker-compose.override.yml build",
+    "build:prod": "docker-compose -f ../docker-compose.yml -f ../docker-compose.production.yml build"
+  },
+  "dependencies": {
+    "@quasar/extras": "^1.0.0",
+    "axios": "^0.18.1",
+    "jwt-decode": "^2.2.0",
+    "quasar": "^1.0.0",
+    "vue-i18n": "^8.0.0",
+    "vuex-persistedstate": "^3.0.1",
+    "zxcvbn": "^4.4.2"
+  },
+  "devDependencies": {
+    "@quasar/app": "^1.7.0",
+    "@quasar/quasar-app-extension-dotenv": "^1.0.1",
+    "@toby.mosque/quasar-app-extension-utils": "1.0.0-beta.56",
+    "babel-eslint": "^10.0.1",
+    "eslint": "^6.8.0",
+    "eslint-config-standard": "^14.1.0",
+    "eslint-loader": "^3.0.3",
+    "eslint-plugin-import": "^2.14.0",
+    "eslint-plugin-node": "^11.0.0",
+    "eslint-plugin-promise": "^4.0.1",
+    "eslint-plugin-standard": "^4.0.0",
+    "eslint-plugin-vue": "^6.1.2",
+    "quasar-app-extension-qautomate": "^1.0.0-alpha.5"
+  },
+  "engines": {
+    "node": ">= 10.18.1",
+    "npm": ">= 6.13.4",
+    "yarn": ">= 1.21.1"
+  },
+  "browserslist": [
+    "last 1 version, not dead, ie >= 11"
+  ],
+  "resolutions": {
+    "@babel/parser": "7.7.5"
+  }
+}
