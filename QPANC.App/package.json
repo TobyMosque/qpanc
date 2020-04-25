@@ -10,7 +10,6 @@
   "scripts": {
     "lint": "eslint --ext .js,.vue src",
     "test": "echo \"No test specified\" && exit 0",
-	"start": "node dist/ssr/index.js",
     "run:dev": "docker-compose -f ../docker-compose.yml -f ../docker-compose.override.yml up",
     "run:prod": "docker-compose -f ../docker-compose.yml -f ../docker-compose.production.yml up",
     "build:dev": "docker-compose -f ../docker-compose.yml -f ../docker-compose.override.yml build",
