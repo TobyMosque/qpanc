@@ -10,7 +10,7 @@ export default async ({ app, store, router }) => {
   })
   Object.defineProperty(store, '$route', {
     get () {
-      return router.route
+      return router.app.$route
     }
   })
   Object.defineProperty(store, '$root', {
