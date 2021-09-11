@@ -3,6 +3,7 @@ using Microsoft.Extensions.Localization;
 using QPANC.Domain;
 using QPANC.Domain.Identity;
 using QPANC.Services.Abstract;
+using QPANC.Services.Abstract.I18n;
 using System;
 using System.Collections.Generic;
 using System.Net;
@@ -16,20 +17,20 @@ namespace QPANC.Services
         private readonly QpancContext _context;
         private readonly ISGuid _sguid;
         private readonly ILoggedUser _loggedUser;
-        private readonly IStringLocalizer _localizer;
+        private readonly IMessages _messages;
 
         public Authentication(
             UserManager<User> userManager,
             QpancContext context,
             ISGuid sguid,
             ILoggedUser loggedUser,
-            IStringLocalizer<Messages> localizer)
+            IMessages messages)
         {
             this._userManager = userManager;
             this._context = context;
             this._sguid = sguid;
             this._loggedUser = loggedUser;
-            this._localizer = localizer;
+            this._messages = messages;
         }
 
         public async Task<BaseResponse<LoginResponse>> Login(LoginRequest login)
@@ -39,7 +40,7 @@ namespace QPANC.Services
                 StatusCode = HttpStatusCode.UnprocessableEntity,
                 Errors = new Dictionary<string, string>
                 {
-                    { nameof(login.Password), this._localizer[nameof(Messages.ErrorMessage_IncorrectPasswordOrUsername)] }
+                    { nameof(login.Password), this._messages.ErrorMessage_IncorrectPasswordOrUsername }
                 }
             };
 
@@ -98,7 +99,7 @@ namespace QPANC.Services
                 StatusCode = HttpStatusCode.UnprocessableEntity,
                 Errors = new Dictionary<string, string>
                 {
-                    { nameof(register.UserName), this._localizer[nameof(Messages.ErrorMessage_UserNameAlreadyTaken)] }
+                    { nameof(register.UserName), this._messages.ErrorMessage_UserNameAlreadyTaken }
                 }
             };
 
@@ -107,7 +108,7 @@ namespace QPANC.Services
                 StatusCode = HttpStatusCode.UnprocessableEntity,
                 Errors = new Dictionary<string, string>
                 {
-                    { nameof(register.Password), this._localizer[nameof(Messages.ErrorMessage_PasswordTooWeak)] }
+                    { nameof(register.Password), this._messages.ErrorMessage_PasswordTooWeak }
                 }
             };
 

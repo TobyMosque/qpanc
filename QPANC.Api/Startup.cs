@@ -1,10 +1,8 @@
 using EntityFrameworkCore.Triggers;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Localization;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
@@ -16,8 +14,9 @@ using QPANC.Domain;
 using QPANC.Domain.Identity;
 using QPANC.Services;
 using QPANC.Services.Abstract;
+using QPANC.Services.Abstract.I18n;
+using QPANC.Services.Extensions;
 using System;
-using System.Globalization;
 using System.IdentityModel.Tokens.Jwt;
 using IConfiguration = Microsoft.Extensions.Configuration.IConfiguration;
 
@@ -36,30 +35,14 @@ namespace QPANC.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddLocalization(options =>
-            {
-                options.ResourcesPath = "Resources";
-            });
-
-            services.Configure<RequestLocalizationOptions>(options =>
-            {
-                var supportedCultures = new[]
-                {
-                    new CultureInfo("pt"),
-                    new CultureInfo("en")
-                };
-
-                options.DefaultRequestCulture = new RequestCulture("en");
-                options.SupportedCultures = supportedCultures;
-                options.SupportedUICultures = supportedCultures;
-            });
+            services.AddI18n();
 
             services.AddControllers()
                 .AddDataAnnotationsLocalization(options => 
                 {
                     options.DataAnnotationLocalizerProvider = (type, factory) =>
                     {
-                        return factory.Create(typeof(Messages));
+                        return factory.Create(typeof(IMessages));
                     };
                 });
             services.ConfigureOptions<Options.ApiBehavior>();
@@ -173,6 +156,11 @@ namespace QPANC.Api
                 c.RoutePrefix = "swagger";
             });
 
+            using (var scope = this._provider.CreateScope())
+            {
+                var messages = scope.ServiceProvider.GetRequiredService<IMessages>();
+            }
+            
             seeder.Execute().GetAwaiter().GetResult();
         }
     }

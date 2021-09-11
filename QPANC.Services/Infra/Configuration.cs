@@ -1,5 +1,5 @@
-﻿using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Hosting;
 using IConfiguration = QPANC.Services.Abstract.IConfiguration;
 
 namespace QPANC.Services
@@ -8,7 +8,7 @@ namespace QPANC.Services
     {
         public IConfigurationRoot Root { get; }
 
-        public Configuration(IHostingEnvironment env)
+        public Configuration(IHostEnvironment env)
         {
             var builder = new ConfigurationBuilder()
                 .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)

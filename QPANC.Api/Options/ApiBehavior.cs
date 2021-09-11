@@ -1,27 +1,26 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Localization;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
-using QPANC.Services.Abstract;
+using QPANC.Services.Abstract.I18n;
 using System.Net;
 
 namespace QPANC.Api.Options
 {
     public class ApiBehavior : IConfigureOptions<ApiBehaviorOptions>
     {
-        private readonly IStringLocalizer _localizer;
-
-        public ApiBehavior(IStringLocalizer<Messages> localizer)
+        public ApiBehavior()
         {
-            this._localizer = localizer;
         }
 
         public void Configure(ApiBehaviorOptions options)
         {
             options.InvalidModelStateResponseFactory = context =>
             {
+                var provider = context.HttpContext.RequestServices;
+                var messages = provider.GetRequiredService<IMessages>();
                 var details = new ValidationProblemDetails(context.ModelState)
                 {
-                    Title = this._localizer[nameof(Messages.Text_ProblemDetails)],
+                    Title = messages.Text_ProblemDetails,
                     Status = (int)HttpStatusCode.UnprocessableEntity
                 };
                 return new UnprocessableEntityObjectResult(details);
