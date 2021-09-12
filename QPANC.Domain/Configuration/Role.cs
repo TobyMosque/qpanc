@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Identity = QPANC.Services.Abstract.Entities.Identity;
 
 namespace QPANC.Domain.Configuration
 {

@@ -14,5 +14,6 @@ namespace QPANC.Services
         }
 
         public string DefaultConnection { get { return this._configuration.Root.GetValue<string>("DEFAULT_CONNECTION"); } }
+        public string AuditConnection { get { return this._configuration.Root.GetValue<string>("AUDIT_CONNECTION"); } }
     }
 }

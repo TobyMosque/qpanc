@@ -2,9 +2,9 @@
 using System;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace QPANC.Domain.Identity
+namespace QPANC.Services.Abstract.Entities.Identity
 {
-    public class UserClaim : IdentityUserClaim<Guid>, Interfaces.IEntity
+    public class UserRole : Base.UserRole, Interfaces.IEntity
     {
         #region IEntity interface
         public bool IsDeleted { get; set; }
@@ -12,9 +12,11 @@ namespace QPANC.Domain.Identity
         public DateTimeOffset? DeletedAt { get; set; }
         public DateTimeOffset? UpsertedAt { get; set; }
         public Guid? UserSessionId { get; set; }
+        public Guid Revision { get; set; }
         #endregion
 
-        [ForeignKey(nameof(UserClaim.UserId))]
         public User User { get; set; }
+
+        public Role Role { get; set; }
     }
 }

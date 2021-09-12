@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace QPANC.Domain.Interfaces
+namespace QPANC.Services.Abstract.Entities.Interfaces
 {
     public interface IEntity
     {
@@ -9,5 +9,6 @@ namespace QPANC.Domain.Interfaces
         DateTimeOffset? UpsertedAt { get; set; }
         DateTimeOffset? DeletedAt { get; set; }
         Guid? UserSessionId { get; set; }
+        Guid Revision { get; set; }
     }
 }

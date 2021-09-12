@@ -5,7 +5,8 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=https://+:443;http://+:80
-      - DEFAULT_CONNECTION=Server=qpanc.database;Port=5432;Database=postgres;User Id=postgres;Password=keepitsupersecret;
+      - DEFAULT_CONNECTION=Server=qpanc.database;Port=5432;Database=qpanc;User Id=postgres;Password=keepitsupersecret;
+      - AUDIT_CONNECTION=Server=qpanc.database;Port=5432;Database=qpanc_audit;User Id=postgres;Password=keepitsupersecret;
       - JWTBEARER_VALIDISSUER=https://api.qpanc.app/
       - JWTBEARER_VALIDAUDIENCE=https://api.qpanc.app/
       - JWTBEARER_ISSUERSIGNINGKEY=itUXC7iVRsofSDWNeg/aLYpc4bMzHAsMPzeItE1PQi2tMK2f4t0InRgTE5B/4IAjhAX5LQSIGL1CaUHSSzED8A==
@@ -17,7 +18,7 @@ services:
     volumes:
       - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
       - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
-
+  
   qpanc.app:
     container_name: qpanc_app_dev
     build:
@@ -32,7 +33,7 @@ services:
 
   qpanc.database:
     volumes:
-      - ./database:/var/lib/postgresql/database
+      - ./database:/var/lib/postgresql/data
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: keepitsupersecret

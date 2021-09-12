@@ -1,10 +1,11 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace QPANC.Domain.Identity
+namespace QPANC.Services.Abstract.Entities.Identity
 {
-    public class UserRole : IdentityUserRole<Guid>, Interfaces.IEntity
+    public class Role : Base.Role, Interfaces.IEntity
     {
         #region IEntity interface
         public bool IsDeleted { get; set; }
@@ -12,12 +13,11 @@ namespace QPANC.Domain.Identity
         public DateTimeOffset? DeletedAt { get; set; }
         public DateTimeOffset? UpsertedAt { get; set; }
         public Guid? UserSessionId { get; set; }
+        public Guid Revision { get; set; }
         #endregion
 
-        [ForeignKey(nameof(UserRole.UserId))]
-        public User User { get; set; }
+        public ICollection<UserRole> Users { get; set; }
 
-        [ForeignKey(nameof(UserRole.RoleId))]
-        public Role Role { get; set; }
+        public ICollection<RoleClaim> Claims { get; set; }
     }
 }

@@ -15,11 +15,11 @@ namespace QPANC.Domain.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn)
-                .HasAnnotation("ProductVersion", "3.1.1")
-                .HasAnnotation("Relational:MaxIdentifierLength", 63);
+                .HasAnnotation("Relational:MaxIdentifierLength", 63)
+                .HasAnnotation("ProductVersion", "5.0.9")
+                .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
-            modelBuilder.Entity("QPANC.Domain.Identity.Role", b =>
+            modelBuilder.Entity("QPANC.Services.Abstract.Entities.Identity.Role", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -39,12 +39,15 @@ namespace QPANC.Domain.Migrations
                         .HasColumnType("boolean");
 
                     b.Property<string>("Name")
-                        .HasColumnType("character varying(256)")
-                        .HasMaxLength(256);
+                        .HasMaxLength(256)
+                        .HasColumnType("character varying(256)");
 
                     b.Property<string>("NormalizedName")
-                        .HasColumnType("character varying(256)")
-                        .HasMaxLength(256);
+                        .HasMaxLength(256)
+                        .HasColumnType("character varying(256)");
+
+                    b.Property<Guid>("Revision")
+                        .HasColumnType("uuid");
 
                     b.Property<DateTimeOffset?>("UpsertedAt")
                         .HasColumnType("timestamp with time zone");
@@ -56,7 +59,7 @@ namespace QPANC.Domain.Migrations
 
                     b.HasIndex("NormalizedName")
                         .IsUnique()
-                        .HasName("RoleNameIndex");
+                        .HasDatabaseName("RoleNameIndex");
 
                     b.HasIndex("IsDeleted", "Id")
                         .IsUnique();
@@ -64,7 +67,7 @@ namespace QPANC.Domain.Migrations
                     b.ToTable("AspNetRoles");
                 });
 
-            modelBuilder.Entity("QPANC.Domain.Identity.RoleClaim", b =>
+            modelBuilder.Entity("QPANC.Services.Abstract.Entities.Identity.RoleClaim", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -85,6 +88,9 @@ namespace QPANC.Domain.Migrations
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("boolean");
+
+                    b.Property<Guid>("Revision")
+                        .HasColumnType("uuid");
 
                     b.Property<Guid>("RoleId")
                         .HasColumnType("uuid");
@@ -105,7 +111,7 @@ namespace QPANC.Domain.Migrations
                     b.ToTable("AspNetRoleClaims");
                 });
 
-            modelBuilder.Entity("QPANC.Domain.Identity.Session", b =>
+            modelBuilder.Entity("QPANC.Services.Abstract.Entities.Identity.Session", b =>
                 {
                     b.Property<Guid>("SessionId")
                         .ValueGeneratedOnAdd()
@@ -122,6 +128,9 @@ namespace QPANC.Domain.Migrations
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("boolean");
+
+                    b.Property<Guid>("Revision")
+                        .HasColumnType("uuid");
 
                     b.Property<DateTimeOffset?>("UpsertedAt")
                         .HasColumnType("timestamp with time zone");
@@ -142,7 +151,7 @@ namespace QPANC.Domain.Migrations
                     b.ToTable("Sessions");
                 });
 
-            modelBuilder.Entity("QPANC.Domain.Identity.User", b =>
+            modelBuilder.Entity("QPANC.Services.Abstract.Entities.Identity.User", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -162,8 +171,8 @@ namespace QPANC.Domain.Migrations
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Email")
-                        .HasColumnType("character varying(256)")
-                        .HasMaxLength(256);
+                        .HasMaxLength(256)
+                        .HasColumnType("character varying(256)");
 
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("boolean");
@@ -184,12 +193,12 @@ namespace QPANC.Domain.Migrations
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("NormalizedEmail")
-                        .HasColumnType("character varying(256)")
-                        .HasMaxLength(256);
+                        .HasMaxLength(256)
+                        .HasColumnType("character varying(256)");
 
                     b.Property<string>("NormalizedUserName")
-                        .HasColumnType("character varying(256)")
-                        .HasMaxLength(256);
+                        .HasMaxLength(256)
+                        .HasColumnType("character varying(256)");
 
                     b.Property<string>("PasswordHash")
                         .HasColumnType("text");
@@ -199,6 +208,9 @@ namespace QPANC.Domain.Migrations
 
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("boolean");
+
+                    b.Property<Guid>("Revision")
+                        .HasColumnType("uuid");
 
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("text");
@@ -210,8 +222,8 @@ namespace QPANC.Domain.Migrations
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("UserName")
-                        .HasColumnType("character varying(256)")
-                        .HasMaxLength(256);
+                        .HasMaxLength(256)
+                        .HasColumnType("character varying(256)");
 
                     b.Property<Guid?>("UserSessionId")
                         .HasColumnType("uuid");
@@ -219,11 +231,11 @@ namespace QPANC.Domain.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("NormalizedEmail")
-                        .HasName("EmailIndex");
+                        .HasDatabaseName("EmailIndex");
 
                     b.HasIndex("NormalizedUserName")
                         .IsUnique()
-                        .HasName("UserNameIndex");
+                        .HasDatabaseName("UserNameIndex");
 
                     b.HasIndex("IsDeleted", "Id")
                         .IsUnique();
@@ -231,7 +243,7 @@ namespace QPANC.Domain.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
-            modelBuilder.Entity("QPANC.Domain.Identity.UserClaim", b =>
+            modelBuilder.Entity("QPANC.Services.Abstract.Entities.Identity.UserClaim", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -253,6 +265,9 @@ namespace QPANC.Domain.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("boolean");
 
+                    b.Property<Guid>("Revision")
+                        .HasColumnType("uuid");
+
                     b.Property<DateTimeOffset?>("UpsertedAt")
                         .HasColumnType("timestamp with time zone");
 
@@ -272,7 +287,7 @@ namespace QPANC.Domain.Migrations
                     b.ToTable("AspNetUserClaims");
                 });
 
-            modelBuilder.Entity("QPANC.Domain.Identity.UserLogin", b =>
+            modelBuilder.Entity("QPANC.Services.Abstract.Entities.Identity.UserLogin", b =>
                 {
                     b.Property<string>("LoginProvider")
                         .HasColumnType("text");
@@ -291,6 +306,9 @@ namespace QPANC.Domain.Migrations
 
                     b.Property<string>("ProviderDisplayName")
                         .HasColumnType("text");
+
+                    b.Property<Guid>("Revision")
+                        .HasColumnType("uuid");
 
                     b.Property<DateTimeOffset?>("UpsertedAt")
                         .HasColumnType("timestamp with time zone");
@@ -311,7 +329,7 @@ namespace QPANC.Domain.Migrations
                     b.ToTable("AspNetUserLogins");
                 });
 
-            modelBuilder.Entity("QPANC.Domain.Identity.UserRole", b =>
+            modelBuilder.Entity("QPANC.Services.Abstract.Entities.Identity.UserRole", b =>
                 {
                     b.Property<Guid>("UserId")
                         .HasColumnType("uuid");
@@ -327,6 +345,9 @@ namespace QPANC.Domain.Migrations
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("boolean");
+
+                    b.Property<Guid>("Revision")
+                        .HasColumnType("uuid");
 
                     b.Property<DateTimeOffset?>("UpsertedAt")
                         .HasColumnType("timestamp with time zone");
@@ -344,7 +365,7 @@ namespace QPANC.Domain.Migrations
                     b.ToTable("AspNetUserRoles");
                 });
 
-            modelBuilder.Entity("QPANC.Domain.Identity.UserToken", b =>
+            modelBuilder.Entity("QPANC.Services.Abstract.Entities.Identity.UserToken", b =>
                 {
                     b.Property<Guid>("UserId")
                         .HasColumnType("uuid");
@@ -364,6 +385,9 @@ namespace QPANC.Domain.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("boolean");
 
+                    b.Property<Guid>("Revision")
+                        .HasColumnType("uuid");
+
                     b.Property<DateTimeOffset?>("UpsertedAt")
                         .HasColumnType("timestamp with time zone");
 
@@ -381,64 +405,98 @@ namespace QPANC.Domain.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("QPANC.Domain.Identity.RoleClaim", b =>
+            modelBuilder.Entity("QPANC.Services.Abstract.Entities.Identity.RoleClaim", b =>
                 {
-                    b.HasOne("QPANC.Domain.Identity.Role", "Role")
+                    b.HasOne("QPANC.Services.Abstract.Entities.Identity.Role", "Role")
                         .WithMany("Claims")
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Role");
                 });
 
-            modelBuilder.Entity("QPANC.Domain.Identity.Session", b =>
+            modelBuilder.Entity("QPANC.Services.Abstract.Entities.Identity.Session", b =>
                 {
-                    b.HasOne("QPANC.Domain.Identity.User", "User")
+                    b.HasOne("QPANC.Services.Abstract.Entities.Identity.User", "User")
                         .WithMany("Sessions")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("User");
                 });
 
-            modelBuilder.Entity("QPANC.Domain.Identity.UserClaim", b =>
+            modelBuilder.Entity("QPANC.Services.Abstract.Entities.Identity.UserClaim", b =>
                 {
-                    b.HasOne("QPANC.Domain.Identity.User", "User")
+                    b.HasOne("QPANC.Services.Abstract.Entities.Identity.User", "User")
                         .WithMany("Claims")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("User");
                 });
 
-            modelBuilder.Entity("QPANC.Domain.Identity.UserLogin", b =>
+            modelBuilder.Entity("QPANC.Services.Abstract.Entities.Identity.UserLogin", b =>
                 {
-                    b.HasOne("QPANC.Domain.Identity.User", "User")
+                    b.HasOne("QPANC.Services.Abstract.Entities.Identity.User", "User")
                         .WithMany("Logins")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("User");
                 });
 
-            modelBuilder.Entity("QPANC.Domain.Identity.UserRole", b =>
+            modelBuilder.Entity("QPANC.Services.Abstract.Entities.Identity.UserRole", b =>
                 {
-                    b.HasOne("QPANC.Domain.Identity.Role", "Role")
+                    b.HasOne("QPANC.Services.Abstract.Entities.Identity.Role", "Role")
                         .WithMany("Users")
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("QPANC.Domain.Identity.User", "User")
+                    b.HasOne("QPANC.Services.Abstract.Entities.Identity.User", "User")
                         .WithMany("Roles")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Role");
+
+                    b.Navigation("User");
                 });
 
-            modelBuilder.Entity("QPANC.Domain.Identity.UserToken", b =>
+            modelBuilder.Entity("QPANC.Services.Abstract.Entities.Identity.UserToken", b =>
                 {
-                    b.HasOne("QPANC.Domain.Identity.User", "User")
+                    b.HasOne("QPANC.Services.Abstract.Entities.Identity.User", "User")
                         .WithMany("Tokens")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("QPANC.Services.Abstract.Entities.Identity.Role", b =>
+                {
+                    b.Navigation("Claims");
+
+                    b.Navigation("Users");
+                });
+
+            modelBuilder.Entity("QPANC.Services.Abstract.Entities.Identity.User", b =>
+                {
+                    b.Navigation("Claims");
+
+                    b.Navigation("Logins");
+
+                    b.Navigation("Roles");
+
+                    b.Navigation("Sessions");
+
+                    b.Navigation("Tokens");
                 });
 #pragma warning restore 612, 618
         }

@@ -37,6 +37,40 @@
     <Content Include="src-cordova/**/*" />
     <Content Include="*.*" Exclude="QPANC.App.njsproj.user;yarn.lock;package-lock.json" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include=".docker\" />
+    <Folder Include=".docker\obj\" />
+    <Folder Include=".docker\obj\Docker\" />
+    <Folder Include="src-ssr\" />
+    <Folder Include="src\" />
+    <Folder Include="src\assets\" />
+    <Folder Include="src\boot\" />
+    <Folder Include="src\components\" />
+    <Folder Include="src\components\locale\" />
+    <Folder Include="src\css\" />
+    <Folder Include="src\i18n\" />
+    <Folder Include="src\i18n\en-us\" />
+    <Folder Include="src\i18n\pt-br\" />
+    <Folder Include="src\layouts\" />
+    <Folder Include="src\layouts\clean\" />
+    <Folder Include="src\layouts\main\" />
+    <Folder Include="src\pages\" />
+    <Folder Include="src\pages\devboard\" />
+    <Folder Include="src\pages\home\" />
+    <Folder Include="src\pages\login\" />
+    <Folder Include="src\pages\register\" />
+    <Folder Include="src\router\" />
+    <Folder Include="src\router\areas\" />
+    <Folder Include="src\services\" />
+    <Folder Include="src\statics\" />
+    <Folder Include="src\statics\flags\" />
+    <Folder Include="src\statics\icons\" />
+    <Folder Include="src\store\" />
+    <Folder Include="src\store\module-example\" />
+    <Folder Include="src\_templates\" />
+    <Folder Include="src\_templates\home\" />
+    <Folder Include="src\_templates\page\" />
+  </ItemGroup>
   <Import Project="$(VSToolsPath)\Node.js Tools\Microsoft.NodejsToolsV2.targets" />
   <ProjectExtensions>
     <VisualStudio>

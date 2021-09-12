@@ -11,9 +11,10 @@ using QPANC.Api.Extensions;
 using QPANC.Api.Middlewares;
 using QPANC.Api.Services;
 using QPANC.Domain;
-using QPANC.Domain.Identity;
+using QPANC.Domain.Audit;
 using QPANC.Services;
 using QPANC.Services.Abstract;
+using QPANC.Services.Abstract.Entities.Identity;
 using QPANC.Services.Abstract.I18n;
 using QPANC.Services.Extensions;
 using System;
@@ -46,18 +47,19 @@ namespace QPANC.Api
                     };
                 });
             services.ConfigureOptions<Options.ApiBehavior>();
+            services.AddSingleton(RT.Comb.Provider.PostgreSql);
 
             services.AddAppSettings();
             services.AddScoped<ILoggedUser, LoggedUser>();
             services.AddScoped<ITokenGenerator, TokenGenerator>();
             services.AddScoped<IAuthentication, Authentication>();
             services.AddDbContext<QpancContext>();
+            services.AddDbContext<QpancAuditContext>();
             services.AddIdentity<User, Role>()
                .AddRoles<Role>()
                .AddEntityFrameworkStores<QpancContext>()
                .AddDefaultTokenProviders();
             services.AddTriggers();
-            services.AddSingleton<ISGuid, SGuid>();
             services.AddScoped<ISeeder, Seeder>();
 
             JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();

@@ -1,22 +1,25 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using QPANC.Domain;
-using QPANC.Domain.Identity;
+using QPANC.Domain.Audit;
 using QPANC.Services.Abstract;
+using QPANC.Services.Abstract.Entities.Identity;
 using System.Threading.Tasks;
 
 namespace QPANC.Services
 {
     public class Seeder : ISeeder
     {
-        private ISGuid _sGuid;
+        private RT.Comb.ICombProvider _comb;
         private QpancContext _context;
+        private QpancAuditContext _auditContext;
         private UserManager<User> _userManager;
         private RoleManager<Role> _roleManager;
-        public Seeder(ISGuid sGuid, QpancContext context, UserManager<User> userManager, RoleManager<Role> roleManager)
+        public Seeder(RT.Comb.ICombProvider comb, QpancContext context, QpancAuditContext auditContext, UserManager<User> userManager, RoleManager<Role> roleManager)
         {
-            this._sGuid = sGuid;
+            this._comb = comb;
             this._context = context;
+            this._auditContext = auditContext;
             this._userManager = userManager;
             this._roleManager = roleManager;
         }
@@ -24,6 +27,7 @@ namespace QPANC.Services
         public async Task Execute()
         {
             await this._context.Database.MigrateAsync();
+            await this._auditContext.Database.MigrateAsync();
             await this.CreateRolesAndDevUser();
         }
 
@@ -38,7 +42,7 @@ namespace QPANC.Services
                 {
                     var role = new Role
                     {
-                        Id = this._sGuid.NewGuid(),
+                        Id = this._comb.Create(),
                         Name = roleName
                     };
                     await this._roleManager.CreateAsync(role);
@@ -51,7 +55,7 @@ namespace QPANC.Services
             {
                 user = new User
                 {
-                    Id = this._sGuid.NewGuid(),
+                    Id = this._comb.Create(),
                     UserName = developer,
                     Email = developer,
                     EmailConfirmed = true

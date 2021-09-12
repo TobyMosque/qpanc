@@ -1,8 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.Localization;
 using QPANC.Domain;
-using QPANC.Domain.Identity;
 using QPANC.Services.Abstract;
+using QPANC.Services.Abstract.Entities.Identity;
 using QPANC.Services.Abstract.I18n;
 using System;
 using System.Collections.Generic;
@@ -15,20 +14,20 @@ namespace QPANC.Services
     {
         private readonly UserManager<User> _userManager;
         private readonly QpancContext _context;
-        private readonly ISGuid _sguid;
+        private readonly RT.Comb.ICombProvider _comb;
         private readonly ILoggedUser _loggedUser;
         private readonly IMessages _messages;
 
         public Authentication(
             UserManager<User> userManager,
             QpancContext context,
-            ISGuid sguid,
+            RT.Comb.ICombProvider comb,
             ILoggedUser loggedUser,
             IMessages messages)
         {
             this._userManager = userManager;
             this._context = context;
-            this._sguid = sguid;
+            this._comb = comb;
             this._loggedUser = loggedUser;
             this._messages = messages;
         }
@@ -57,8 +56,8 @@ namespace QPANC.Services
             }
 
             var expiresAt = DateTimeOffset.Now.AddYears(1);
-            var sessionId = this._sguid.NewGuid();
-            var session = new Domain.Identity.Session
+            var sessionId = this._comb.Create();
+            var session = new Session
             {
                 SessionId = sessionId,
                 UserId = user.Id,

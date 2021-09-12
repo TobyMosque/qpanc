@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
-using QPANC.Domain.Identity;
+using QPANC.Services.Abstract.Entities.Identity;
 using System;
 using System.Net;
 using System.Text;

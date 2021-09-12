@@ -10,7 +10,7 @@ services:
       qpanc.network:
       qpanc.internal:
         ipv4_address: "172.18.18.3"
-
+  
   qpanc.app:
     restart: always
     image: ${DOCKER_REGISTRY-}qpancapp
